@@ -4,10 +4,10 @@ provider "aws" {
 
 #LAMBDA - sgr-security - START
 
-resource "aws_lambda_function" "sgr-security" {
+resource "aws_lambda_function" "sgr-security-generate-token" {
   depends_on = [aws_db_instance.sgr-database]
-  function_name = "sgr-security"
-  handler      = "br.com.pupposoft.fiap.sgr.security.gateway.entrypoint.LambdaEntrypoint::handleRequest"
+  function_name = "sgr-security-generate-token"
+  handler      = "br.com.pupposoft.fiap.sgr.security.gateway.entrypoint.GenerateTokenEntrypoint::handleRequest"
   runtime      = "java17"
   role         = aws_iam_role.iam_for_lambda.arn
   timeout      = 60
@@ -26,10 +26,27 @@ resource "aws_lambda_function" "sgr-security" {
 
 }
 
+resource "aws_lambda_function" "sgr-security-validate-token" {
+  depends_on = [aws_db_instance.sgr-database]
+  function_name = "sgr-security-validate-token"
+  handler      = "br.com.pupposoft.fiap.sgr.security.gateway.entrypoint.ValidateTokenEntrypoint::handleRequest"
+  runtime      = "java17"
+  role         = aws_iam_role.iam_for_lambda.arn
+  timeout      = 60
+
+  filename = "./sgr-security/sgr-security-1.0.0-RELEASE.jar"
+
+  environment {
+        variables = {
+            TOKEN_SECRET_KEY = "5Evk0PWG3Xb81q0fP3Q6zb5pTs0VOScDkoE28qjG4UbzHgp7v64lI5NXzVZeJxBdWF4yZ1LQSiaX3IGcDxua2BcfxV9tmWbSrCov",
+        }
+  }
+}
+
 resource "aws_lambda_permission" "lambda_permission" {
   statement_id  = "AllowSgrSecurityAPIInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.sgr-security.function_name
+  function_name = aws_lambda_function.sgr-security-generate-token.function_name
   principal     = "apigateway.amazonaws.com"
 
   # The /* part allows invocation from any stage, method and resource path
@@ -91,7 +108,7 @@ resource "aws_api_gateway_integration" "sgr-security-integration" {
   http_method             = aws_api_gateway_method.login-post.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.sgr-security.invoke_arn
+  uri                     = aws_lambda_function.sgr-security-generate-token.invoke_arn
 }
 
 resource "aws_api_gateway_deployment" "sgr-security-api" {
