@@ -52,7 +52,7 @@ resource "aws_ecs_service" "sgr-service-spring" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.alvo.arn
-    container_name   = "producao"
+    container_name   = "sgr-service"
     container_port   = 8080
   }
 
