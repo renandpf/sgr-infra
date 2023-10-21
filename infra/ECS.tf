@@ -13,6 +13,7 @@ module "ecs" {
 }
 
 resource "aws_ecs_task_definition" "sgr-service-spring-td" {
+  depends_on = [aws_db_instance.sgr-service-database]
   family                   = "sgr-service-spring-td"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -35,8 +36,8 @@ resource "aws_ecs_task_definition" "sgr-service-spring-td" {
         ]
         "environment"= [
             {"name": "SPRING_DATASOURCE_URL", "value": join("", ["jdbc:mysql://",aws_db_instance.sgr-service-database.endpoint,"/sgr_database"])},
-            {"name": "SPRING_DATASOURCE_USERNAME", "value": "root"},
-            {"name": "SPRING_DATASOURCE_PASSWORD", "value": "senha123"}
+            {"name": "SPRING_DATASOURCE_USERNAME", "value": var.sgr-service-db-username},
+            {"name": "SPRING_DATASOURCE_PASSWORD", "value": var.sgr-service-db-password}
         ]
       }
     ]

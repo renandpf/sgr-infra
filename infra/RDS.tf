@@ -5,8 +5,8 @@ resource "aws_db_instance" "sgr-security-database" {
   engine_version       = "5.7"
   instance_class       = "db.t2.micro"
   db_name              = "sgrDbSecurity"
-  username             = "root"
-  password             = "senha123"
+  username             = var.sgr-security-db-username
+  password             = var.sgr-security-db-password
   parameter_group_name = "default.mysql5.7"
   publicly_accessible    = true #Deve ser false por segurança (está publica para testes didáticos)
   skip_final_snapshot  = true
@@ -21,8 +21,8 @@ resource "aws_db_instance" "sgr-service-database" {
   engine_version       = "5.7"
   instance_class       = "db.t2.micro"
   db_name              = "sgr_database"
-  username             = "root"
-  password             = "senha123"
+  username             = var.sgr-service-db-username
+  password             = var.sgr-service-db-password
   parameter_group_name = "default.mysql5.7"
   publicly_accessible    = true #Deve ser false por segurança (está publica para testes didáticos)
   skip_final_snapshot  = true
