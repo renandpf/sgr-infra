@@ -1,6 +1,6 @@
 module "prod" {
     source = "../../infra"
-    nome_repositorio = "producao"
+    nome_repositorio = "sgr-service-spring"
     cargoIAM = "producao"
     ambiente = "producao"
 }

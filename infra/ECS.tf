@@ -12,8 +12,8 @@ module "ecs" {
   }
 }
 
-resource "aws_ecs_task_definition" "sgr-service-api-td" {
-  family                   = "sgr-service-api-td"
+resource "aws_ecs_task_definition" "sgr-service-spring-td" {
+  family                   = "sgr-service-spring-td"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = 256
@@ -23,7 +23,7 @@ resource "aws_ecs_task_definition" "sgr-service-api-td" {
     [
       {
         "name"      = "sgr-service"
-        "image"     = "962752222089.dkr.ecr.us-west-2.amazonaws.com/sgr-service:v1"
+        "image"     = "057028502056.dkr.ecr.us-west-2.amazonaws.com/sgr-service-spring:latest"
         "cpu"       = 256
         "memory"    = 512
         "essential" = true
@@ -33,15 +33,20 @@ resource "aws_ecs_task_definition" "sgr-service-api-td" {
             "hostPort"      = 8080
           }
         ]
+        "environment"= [
+            {"name": "SPRING_DATASOURCE_URL", "value": join("", ["jdbc:mysql://",aws_db_instance.sgr-service-database.endpoint,"/sgr_database"])},
+            {"name": "SPRING_DATASOURCE_USERNAME", "value": "root"},
+            {"name": "SPRING_DATASOURCE_PASSWORD", "value": "senha123"}
+        ]
       }
     ]
   )
 }
 
-resource "aws_ecs_service" "sgr-service-api" {
-  name            = "sgr-service-api"
+resource "aws_ecs_service" "sgr-service-spring" {
+  name            = "sgr-service-spring"
   cluster         = module.ecs.cluster_id
-  task_definition = aws_ecs_task_definition.sgr-service-api-td.arn
+  task_definition = aws_ecs_task_definition.sgr-service-spring-td.arn
   desired_count   = 3
 
   load_balancer {

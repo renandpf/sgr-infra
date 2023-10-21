@@ -15,8 +15,8 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_lb_target_group" "alvo" {
-  name        = "ECS-Django"
-  port        = 8000
+  name        = "ECS-sgr-service-spring"
+  port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = module.vpc.vpc_id

@@ -1,4 +1,2 @@
-./**/.terraform
-./**/terraform.tfstate
-./**/*.backup
-../**/terraform.lock.hcl
+env/prod/.terraform.lock.hcl
+env/prod/.terraform/*
