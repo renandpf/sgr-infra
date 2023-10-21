@@ -6,7 +6,7 @@ resource "aws_lambda_function" "sgr-security-generate-token" {
   role         = aws_iam_role.iam_for_lambda.arn
   timeout      = 60
 
-  filename = "./sgr-security/sgr-security-1.0.0-RELEASE.jar"
+  filename = "../../sgr-security/sgr-security-1.0.0-RELEASE.jar"
 
   environment {
         variables = {
@@ -27,7 +27,7 @@ resource "aws_lambda_function" "sgr-security-validate-token" {
   role         = aws_iam_role.iam_for_lambda.arn
   timeout      = 60
 
-  filename = "../sgr-security/sgr-security-1.0.0-RELEASE.jar"
+  filename = "../../sgr-security/sgr-security-1.0.0-RELEASE.jar"
 
   environment {
         variables = {
