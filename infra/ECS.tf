@@ -48,7 +48,7 @@ resource "aws_ecs_service" "sgr-service-spring" {
   name            = "sgr-service-spring"
   cluster         = module.ecs.cluster_id
   task_definition = aws_ecs_task_definition.sgr-service-spring-td.arn
-  desired_count   = 3
+  desired_count   = 1
 
   load_balancer {
     target_group_arn = aws_lb_target_group.alvo.arn
