@@ -10,7 +10,7 @@ resource "aws_lambda_function" "sgr-security-generate-token" {
 
   environment {
         variables = {
-            DATABASE_URL = join("", ["jdbc:mysql://",aws_db_instance.sgr-service-database.endpoint,"/sgrDbSecurity"])
+            DATABASE_URL = join("", ["jdbc:mysql://",aws_db_instance.sgr-security-database.endpoint,"/sgrDbSecurity"])
             DATABASE_USERNAME = var.sgr-security-db-username
             DATABASE_PASSWORD = var.sgr-security-db-password,
             TOKEN_SECRET_KEY = var.secret-token,

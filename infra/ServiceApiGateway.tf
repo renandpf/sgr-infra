@@ -45,14 +45,14 @@ resource "aws_api_gateway_authorizer" "authorizer" {
   authorizer_credentials = aws_iam_role.invocation_role.arn
 }
 
-# TODO: CORRIGIR (chamar o service) !
 resource "aws_api_gateway_integration" "sgr-service-integration" {
   rest_api_id             = aws_api_gateway_rest_api.sgr-service-api.id
   resource_id             = aws_api_gateway_resource.produtoId.id
   http_method             = aws_api_gateway_method.get-produto.http_method
-  integration_http_method = "GET"
-  type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.sgr-security-generate-token.invoke_arn
+  
+  integration_http_method = "ANY"
+  type                    = "HTTP_PROXY"
+  uri                     = join("", ["http://",aws_lb.alb.dns_name,":8080"])
 }
 
 resource "aws_api_gateway_deployment" "sgr-service-api" {
