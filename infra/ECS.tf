@@ -39,6 +39,14 @@ resource "aws_ecs_task_definition" "sgr-service-spring-td" {
             {"name": "SPRING_DATASOURCE_USERNAME", "value": var.sgr-service-db-username},
             {"name": "SPRING_DATASOURCE_PASSWORD", "value": var.sgr-service-db-password}
         ]
+        # "logConfiguration": {
+        #   "logDriver": "awslogs",
+        #   "options": {
+        #     "awslogs-group": "sgr-service",
+        #     "awslogs-region": "us-west-2",
+        #     "awslogs-stream-prefix": "ecs"
+        #   }
+        # }
       }
     ]
   )

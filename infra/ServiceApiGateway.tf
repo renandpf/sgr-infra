@@ -52,7 +52,10 @@ resource "aws_api_gateway_integration" "sgr-service-integration" {
   
   integration_http_method = "ANY"
   type                    = "HTTP_PROXY"
-  uri                     = join("", ["http://",aws_lb.alb.dns_name,":8080"])
+  uri                     = join("", ["http://",aws_lb.alb.dns_name,":8080/sgr/gerencial/produtos/{produtoId}"])
+  request_parameters      = {
+    "integration.request.path.produtoId" = "method.request.path.produtoId"
+  }
 }
 
 resource "aws_api_gateway_deployment" "sgr-service-api" {
