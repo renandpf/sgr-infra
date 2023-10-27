@@ -59,7 +59,7 @@ resource "aws_api_gateway_integration" "sgr-service-integration" {
 }
 
 resource "aws_api_gateway_deployment" "sgr-service-api" {
-  # depends_on = [aws_api_gateway_integration.sgr-security-integration]
+  depends_on = [aws_api_gateway_integration.sgr-service-integration]
   rest_api_id = aws_api_gateway_rest_api.sgr-service-api.id
   stage_name  = "prod"
 }
