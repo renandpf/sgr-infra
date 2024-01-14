@@ -29,3 +29,15 @@ variable "sgr-pagamento-service-db-username" {
 variable "sgr-pagamento-service-db-password" {
   type = string
 }
+
+variable "sgr-pedido-service-nome-repositorio" {
+  type = string
+}
+
+variable "sgr-pedido-service-db-username" {
+  type = string
+}
+
+variable "sgr-pedido-service-db-password" {
+  type = string
+}
