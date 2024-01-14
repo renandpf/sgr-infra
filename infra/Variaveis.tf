@@ -1,35 +1,31 @@
-variable "nome_repositorio" {
-  type = string
-}
-
-variable "cargoIAM" {
-  type = string
-}
-
 variable "ambiente" {
   type = string
 }
 
-variable "secret-token" {
+variable "clusterName" {
   type = string
 }
 
-variable "token-expiration-time-seconds" {
+variable "sgr-gerencial-service-nome-repositorio" {
   type = string
 }
 
-variable "sgr-security-db-username" {
+variable "sgr-gerencial-service-db-username" {
   type = string
 }
 
-variable "sgr-security-db-password" {
+variable "sgr-gerencial-service-db-password" {
   type = string
 }
 
-variable "sgr-service-db-username" {
+variable "sgr-pagamento-service-nome-repositorio" {
   type = string
 }
 
-variable "sgr-service-db-password" {
+variable "sgr-pagamento-service-db-username" {
+  type = string
+}
+
+variable "sgr-pagamento-service-db-password" {
   type = string
 }

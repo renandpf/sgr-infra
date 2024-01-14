@@ -14,6 +14,6 @@ terraform {
 }
 
 provider "aws" {
-  profile = "pupposoft"
+  profile = "fiap-aws-academy"
   region  = "us-west-2"
 }
