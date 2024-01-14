@@ -5,7 +5,7 @@ resource "aws_db_instance" "sgr-pagamento-database" {
   engine               = "mysql"
   engine_version       = "5.7"
   instance_class       = "db.t2.micro"
-  db_name              = "sgr_database"
+  db_name              = "sgr_pagamento_database"
   username             = var.sgr-pagamento-service-db-username
   password             = var.sgr-pagamento-service-db-password
   parameter_group_name = "default.mysql5.7"
