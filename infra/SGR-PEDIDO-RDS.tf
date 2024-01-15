@@ -6,6 +6,7 @@ resource "aws_db_instance" "sgr-pedido-database" {
   engine_version       = "5.7"
   instance_class       = "db.t2.micro"
   db_name              = "sgr_pedido_database"
+  identifier           = "sgr-pedido-database"
   username             = var.sgr-pedido-service-db-username
   password             = var.sgr-pedido-service-db-password
   parameter_group_name = "default.mysql5.7"
