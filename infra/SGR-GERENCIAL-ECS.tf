@@ -25,14 +25,15 @@ resource "aws_ecs_task_definition" "sgr-gerencial-service-td" {
             {"name": "SPRING_DATASOURCE_USERNAME", "value": var.sgr-gerencial-service-db-username},
             {"name": "SPRING_DATASOURCE_PASSWORD", "value": var.sgr-gerencial-service-db-password}
         ]
-        # "logConfiguration": {
-        #   "logDriver": "awslogs",
-        #   "options": {
-        #     "awslogs-group": "sgr-service",
-        #     "awslogs-region": "us-west-2",
-        #     "awslogs-stream-prefix": "ecs"
-        #   }
-        # }
+        "logConfiguration": {
+          "logDriver": "awslogs"
+          "options": {
+            "awslogs-create-group": "true"
+            "awslogs-group": "sgr-gerencial-service"
+            "awslogs-region": "us-west-2"
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
       }
     ]
   )
