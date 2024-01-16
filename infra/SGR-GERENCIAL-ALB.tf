@@ -1,5 +1,6 @@
 resource "aws_lb" "alb-sgr-gerencial" {
   name               = "ECS-SGR-GERENCIAL-SERVICE"
+  internal           = false
   security_groups    = [aws_security_group.alb.id]
   subnets            = module.vpc.public_subnets
 }

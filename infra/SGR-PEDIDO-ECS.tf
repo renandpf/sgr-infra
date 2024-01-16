@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "sgr-pedido-service-td" {
-  depends_on = [aws_db_instance.sgr-pedido-database]
+  depends_on = [aws_db_instance.sgr-pedido-database, aws_ecr_repository.sgr-pedido-repositorio]
   family                   = "sgr-pedido-service-td"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "sgr-pedido-service-td" {
     [
       {
         "name"      = "sgr-pedido-service"
-        "image"     = "552599229727.dkr.ecr.us-west-2.amazonaws.com/sgr-pedido-service:latest"
+        "image"     = aws_ecr_repository.sgr-pedido-repositorio.repository_url
         "cpu"       = 256
         "memory"    = 512
         "essential" = true
@@ -23,7 +23,8 @@ resource "aws_ecs_task_definition" "sgr-pedido-service-td" {
         "environment"= [
             {"name": "SPRING_DATASOURCE_URL", "value": join("", ["jdbc:mysql://",aws_db_instance.sgr-pedido-database.endpoint,"/sgr_pedido_database"])},
             {"name": "SPRING_DATASOURCE_USERNAME", "value": var.sgr-pedido-service-db-username},
-            {"name": "SPRING_DATASOURCE_PASSWORD", "value": var.sgr-pedido-service-db-password}
+            {"name": "SPRING_DATASOURCE_PASSWORD", "value": var.sgr-pedido-service-db-password},
+            {"name": "SPRING_PROFILES_ACTIVE", "value": "prd"},
         ]
         "logConfiguration": {
           "logDriver": "awslogs"

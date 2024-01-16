@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "sgr-gerencial-service-td" {
-  depends_on = [aws_db_instance.sgr-gerencial-database]
+  depends_on = [aws_db_instance.sgr-gerencial-database, aws_ecr_repository.sgr-gerencial-repositorio]
   family                   = "sgr-gerencial-service-td"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "sgr-gerencial-service-td" {
     [
       {
         "name"      = "sgr-gerencial-service"
-        "image"     = "552599229727.dkr.ecr.us-west-2.amazonaws.com/sgr-gerencial-service:latest"
+        "image"     = aws_ecr_repository.sgr-gerencial-repositorio.repository_url
         "cpu"       = 256
         "memory"    = 512
         "essential" = true
@@ -23,7 +23,8 @@ resource "aws_ecs_task_definition" "sgr-gerencial-service-td" {
         "environment"= [
             {"name": "SPRING_DATASOURCE_URL", "value": join("", ["jdbc:mysql://",aws_db_instance.sgr-gerencial-database.endpoint,"/sgr_gerencial_database"])},
             {"name": "SPRING_DATASOURCE_USERNAME", "value": var.sgr-gerencial-service-db-username},
-            {"name": "SPRING_DATASOURCE_PASSWORD", "value": var.sgr-gerencial-service-db-password}
+            {"name": "SPRING_DATASOURCE_PASSWORD", "value": var.sgr-gerencial-service-db-password},
+            {"name": "SPRING_PROFILES_ACTIVE", "value": "prd"},
         ]
         "logConfiguration": {
           "logDriver": "awslogs"
