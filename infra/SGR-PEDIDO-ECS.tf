@@ -1,5 +1,8 @@
 resource "aws_ecs_task_definition" "sgr-pedido-service-td" {
-  depends_on = [aws_db_instance.sgr-pedido-database, aws_ecr_repository.sgr-pedido-repositorio]
+  depends_on = [aws_db_instance.sgr-pedido-database, 
+                aws_ecr_repository.sgr-pedido-repositorio, 
+                aws_lb.alb-sgr-gerencial, 
+                aws_lb.alb-sgr-pagamento]
   family                   = "sgr-pedido-service-td"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -25,6 +28,9 @@ resource "aws_ecs_task_definition" "sgr-pedido-service-td" {
             {"name": "SPRING_DATASOURCE_USERNAME", "value": var.sgr-pedido-service-db-username},
             {"name": "SPRING_DATASOURCE_PASSWORD", "value": var.sgr-pedido-service-db-password},
             {"name": "SPRING_PROFILES_ACTIVE", "value": "prd"},
+            {"name": "SGR_CLIENTE-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-gerencial.dns_name,":8080"])},
+            {"name": "SGR_PRODUTO-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-gerencial.dns_name,":8080"])},
+            {"name": "SGR_PAGAMENTO-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-pagamento.dns_name,":8080"])},
         ]
         "logConfiguration": {
           "logDriver": "awslogs"
