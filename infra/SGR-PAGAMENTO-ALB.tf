@@ -23,5 +23,9 @@ resource "aws_lb_target_group" "alb-sgr-pagamento-alvo" {
   vpc_id      = module.vpc.vpc_id
   health_check {
     path = "/actuator/health"
+    healthy_threshold = "3"
+    unhealthy_threshold = "10"
+    timeout = "30"
+    interval = "60"
   }
 }
