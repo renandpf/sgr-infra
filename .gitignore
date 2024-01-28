@@ -2,3 +2,4 @@ env/prod/.terraform.lock.hcl
 env/prod/.terraform/*
 env/prod/terraform.tfstate
 env/prod/terraform.tfstate.backup
+terraform.tfstate
