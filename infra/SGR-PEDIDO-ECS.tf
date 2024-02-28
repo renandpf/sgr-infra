@@ -31,6 +31,8 @@ resource "aws_ecs_task_definition" "sgr-pedido-service-td" {
             {"name": "SGR_CLIENTE-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-gerencial.dns_name,":8080"])},
             {"name": "SGR_PRODUTO-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-gerencial.dns_name,":8080"])},
             {"name": "SGR_PAGAMENTO-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-pagamento.dns_name,":8080"])},
+            {"name": "CLOUD_SQS_NOTIFICAR-CLIENTE_ENDPOINT", "value": aws_sqs_queue.notificar_qeue.url},
+
         ]
         "logConfiguration": {
           "logDriver": "awslogs"

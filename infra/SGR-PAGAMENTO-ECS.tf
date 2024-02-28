@@ -30,6 +30,9 @@ resource "aws_ecs_task_definition" "sgr-pagamento-service-td" {
             {"name": "SPRING_PROFILES_ACTIVE", "value": "prd"},
             {"name": "SGR_CLIENTE-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-gerencial.dns_name,":8080"])},
             {"name": "SGR_PEDIDO-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-pedido.dns_name,":8080"])},
+            {"name": "CLOUD_SQS_STATUS-PEDIDO_ENDPOINT", "value": aws_sqs_queue.atualiza_status_pedido_qeue.url},
+            {"name": "CLOUD_SQS_NOTIFICAR-CLIENTE_ENDPOINT", "value": aws_sqs_queue.notificar_qeue.url},
+            
         ]
         "logConfiguration": {
           "logDriver": "awslogs"
