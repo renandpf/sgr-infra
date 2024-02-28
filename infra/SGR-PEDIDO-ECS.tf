@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "sgr-pedido-service-td" {
   network_mode             = "awsvpc"
   cpu                      = 256
   memory                   = 512
-  execution_role_arn       = "arn:aws:iam::552599229727:role/LabRole"
+  execution_role_arn       = "arn:aws:iam::992382745295:role/LabRole"
   container_definitions = jsonencode(
     [
       {
