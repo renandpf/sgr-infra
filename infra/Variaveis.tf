@@ -41,3 +41,15 @@ variable "sgr-pedido-service-db-username" {
 variable "sgr-pedido-service-db-password" {
   type = string
 }
+
+variable "aws-access-key-id" {
+  type = string
+}
+
+variable "aws-secret-access-key" {
+  type = string
+}
+
+variable "aws-session-token" {
+  type = string
+}

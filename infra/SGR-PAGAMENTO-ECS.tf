@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "sgr-pagamento-service-td" {
   network_mode             = "awsvpc"
   cpu                      = 256
   memory                   = 512
-  execution_role_arn       = "arn:aws:iam::552599229727:role/LabRole"
+  execution_role_arn       = "arn:aws:iam::992382745295:role/LabRole"
   container_definitions = jsonencode(
     [
       {
@@ -30,6 +30,12 @@ resource "aws_ecs_task_definition" "sgr-pagamento-service-td" {
             {"name": "SPRING_PROFILES_ACTIVE", "value": "prd"},
             {"name": "SGR_CLIENTE-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-gerencial.dns_name,":8080"])},
             {"name": "SGR_PEDIDO-SERVICE_URL", "value": join("", ["http://",aws_lb.alb-sgr-pedido.dns_name,":8080"])},
+            {"name": "CLOUD_SQS_STATUS-PEDIDO_ENDPOINT", "value": aws_sqs_queue.atualiza_status_pedido_qeue.url},
+            {"name": "CLOUD_SQS_NOTIFICAR-CLIENTE_ENDPOINT", "value": aws_sqs_queue.notificar_qeue.url},
+            {"name": "CLOUD_SQS.EFETUAR-PAGAMENTO_ENDPOINT", "value": aws_sqs_queue.efetuar_pagamento_qeue.url},
+            {"name": "AWS_ACCESS_KEY_ID", "value": var.aws-access-key-id},
+            {"name": "AWS_SECRET_ACCESS_KEY", "value": var.aws-secret-access-key},
+            {"name": "AWS_SESSION_TOKEN", "value": var.aws-session-token},
         ]
         "logConfiguration": {
           "logDriver": "awslogs"
